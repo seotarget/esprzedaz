@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Services\PetService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 
 class PetController extends Controller
 {
@@ -24,6 +23,7 @@ class PetController extends Controller
     {
         try {
             $pets = $this->petService->getAllPets();
+
             return view('pets.index', compact('pets'));
         } catch (\Exception $e) {
             return view('pets.index', ['pets' => [], 'error' => $e->getMessage()]);
@@ -54,10 +54,11 @@ class PetController extends Controller
                 'status' => $request->status,
                 'category' => ['name' => $request->category ?? 'default'],
                 'tags' => [['name' => $request->tags ?? 'default']],
-                'photoUrls' => [$request->photo_url ?? '']
+                'photoUrls' => [$request->photo_url ?? ''],
             ];
 
             $this->petService->createPet($petData);
+
             return redirect()->route('pets.index')->with('success', 'Zwierzę zostało dodane!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', $e->getMessage());
@@ -71,6 +72,7 @@ class PetController extends Controller
     {
         try {
             $pet = $this->petService->getPetById($id);
+
             return view('pets.edit', compact('pet'));
         } catch (\Exception $e) {
             return redirect()->route('pets.index')->with('error', $e->getMessage());
@@ -94,10 +96,11 @@ class PetController extends Controller
                 'status' => $request->status,
                 'category' => ['name' => $request->category ?? 'default'],
                 'tags' => [['name' => $request->tags ?? 'default']],
-                'photoUrls' => [$request->photo_url ?? '']
+                'photoUrls' => [$request->photo_url ?? ''],
             ];
 
             $this->petService->updatePet($petData);
+
             return redirect()->route('pets.index')->with('success', 'Zwierzę zostało zaktualizowane!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', $e->getMessage());
@@ -111,9 +114,10 @@ class PetController extends Controller
     {
         try {
             $this->petService->deletePet($id);
+
             return redirect()->route('pets.index')->with('success', 'Zwierzę zostało usunięte!');
         } catch (\Exception $e) {
             return redirect()->route('pets.index')->with('error', $e->getMessage());
         }
     }
-} 
+}

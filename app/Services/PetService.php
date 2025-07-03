@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Response;
 
 class PetService
 {
@@ -15,14 +14,14 @@ class PetService
     public function getAllPets(): array
     {
         $response = Http::get("{$this->baseUrl}/pet/findByStatus", [
-            'status' => 'available'
+            'status' => 'available',
         ]);
 
         if ($response->successful()) {
             return $response->json();
         }
 
-        throw new \Exception('Nie udało się pobrać zwierząt: ' . $response->body());
+        throw new \Exception('Nie udało się pobrać zwierząt: '.$response->body());
     }
 
     /**
@@ -40,7 +39,7 @@ class PetService
             throw new \Exception('Zwierzę nie zostało znalezione');
         }
 
-        throw new \Exception('Nie udało się pobrać zwierzęcia: ' . $response->body());
+        throw new \Exception('Nie udało się pobrać zwierzęcia: '.$response->body());
     }
 
     /**
@@ -54,7 +53,7 @@ class PetService
             return $response->json();
         }
 
-        throw new \Exception('Nie udało się dodać zwierzęcia: ' . $response->body());
+        throw new \Exception('Nie udało się dodać zwierzęcia: '.$response->body());
     }
 
     /**
@@ -68,7 +67,7 @@ class PetService
             return $response->json();
         }
 
-        throw new \Exception('Nie udało się zaktualizować zwierzęcia: ' . $response->body());
+        throw new \Exception('Nie udało się zaktualizować zwierzęcia: '.$response->body());
     }
 
     /**
@@ -86,6 +85,6 @@ class PetService
             throw new \Exception('Zwierzę nie zostało znalezione');
         }
 
-        throw new \Exception('Nie udało się usunąć zwierzęcia: ' . $response->body());
+        throw new \Exception('Nie udało się usunąć zwierzęcia: '.$response->body());
     }
-} 
+}
